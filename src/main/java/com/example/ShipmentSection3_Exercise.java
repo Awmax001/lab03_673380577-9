@@ -1,10 +1,12 @@
+package com.example;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // ╔══════════════════════════════════════════════════════════╗
 //  SECTION 3 — แบบฝึกหัด (Exercise)
-//  ชื่อนักศึกษา : ___________________________
-//  รหัสนักศึกษา : ___________________________
+//  ชื่อนักศึกษา : จีรภัทร แก้วดี
+//  รหัสนักศึกษา : 673380577-9
 // ╚══════════════════════════════════════════════════════════╝
 //
 //  โจทย์:
@@ -55,7 +57,7 @@ class Shipment {
     public double calculateCost() {
         final double STANDARD_RATE =  40.0;
         final double EXPRESS_RATE  = 100.0;
-        if (type == ShipmentType.EXPRESS) {          // ← ผิด ควรเช็ค STANDARD
+        if (type == ShipmentType.STANDARD) {          // ← ผิด ควรเช็ค STANDARD
             return weightKg * STANDARD_RATE;
         } else {
             return weightKg * EXPRESS_RATE;
@@ -68,7 +70,8 @@ class Shipment {
     //             แนะนำ: ใช้ String.format() และเรียก calculateCost()
     @Override
     public String toString() {
-        return "[" + trackingNumber + "] ???";  // ← เติมให้ครบ
+        return String.format("[%s] %6.2f กก. | %s | %9.2f บาท", 
+            trackingNumber, weightKg, type, calculateCost());
     }
 }
 
@@ -96,7 +99,7 @@ class ShippingCompany {
     public double getTotalCost() {
         double total = 0;
         for (int i = 0; i < shipments.size(); i++) {
-            total += shipments.get(0).calculateCost();  // ← ผิด ควรเป็น get(i)
+            total += shipments.get(i).calculateCost();  // ← ผิด ควรเป็น get(i)
         }
         return total;
     }
@@ -112,9 +115,13 @@ class ShippingCompany {
         System.out.println("========================================");
 
         // 1) วนลูปแสดงแต่ละ shipment ตรงนี้
+        for (Shipment s : shipments) {
+            System.out.println(s); // ระบบจะเรียกใช้ toString() ที่เราเขียนไว้ให้อัตโนมัติ
+        }
 
         System.out.println("----------------------------------------");
         // 2) แสดงยอดรวมตรงนี้
+        System.out.printf("  ยอดรวมค่าขนส่ง : %.2f บาท%n", getTotalCost());
     }
 }
 
